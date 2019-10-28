@@ -1,0 +1,273 @@
+<html>
+<head>
+           <title>NinjaMan</title>
+           <style type="text/css">
+           *{
+                      margin: 0;
+                      padding: 0;
+           }
+           .row{
+                      line-height: 0;
+           }
+           .wall {
+                      background-color: blue; 
+                      height: 40px;
+                      width: 40px;
+                      display: inline-block;
+           }
+           .sushi {
+                      background-color: black; 
+                      height: 40px;
+                      width: 40px;
+                      display: inline-block;
+                      background-image: url('sushi.png');
+                      background-size: contain;
+           }
+           .onigiri {
+                      background-color: black; 
+                      height: 40px;
+                      width: 40px;
+                      display: inline-block;
+                      background-image: url('onigiri.png');
+                      background-size: contain;
+           }
+           
+           .blank {
+                      background-color: black; 
+                      height: 40px;
+                      width: 40px;
+                      display: inline-block;
+           }
+           #ghostorange {
+                      background-color: black; 
+                      height: 40px;
+                      width: 40px;
+                      display: inline-block;
+                      background-image: url('pumpky.gif');
+                      background-size: contain;
+                      position: absolute;
+                      left: 40px;
+                      top: 40px;
+           }
+           #ninjaman {
+                      background-color: black; 
+                      height: 40px;
+                      width: 40px;
+                      display: inline-block;
+                      background-image: url('ninja.gif');
+                      background-size: contain;
+                      position: absolute;
+                      left: 40px;
+                      top: 40px;
+           }
+            #ghostpink {
+                      background-color: black; 
+                      height: 40px;
+                      width: 40px;
+                      display: inline-block;
+                      background-image: url('pinky.gif');
+                      background-size: contain;
+                      position: absolute;
+                      left: 60px;
+                      top: 10px;
+           }
+            #ghostblue {
+                      background-color: black; 
+                      height: 40px;
+                      width: 40px;
+                      display: inline-block;
+                      background-image: url('bluey.gif');
+                      background-size: contain;
+                      position: absolute;
+                      left: 20px;
+                      top: 20px;
+           }
+           </style>
+</head>
+<body>
+<div id ='world'>
+          
+</div>
+<div id='ninjaman'></div>
+<div id='ghostorange'></div>
+<div id='ghostpink'></div>
+<div id ='ghostblue'></div>
+<div></div>
+</body>
+    <script type="text/javascript">
+      function random(max,min){
+      return Math.floor(Math.random()* (max-min +1))+min;
+      }
+      var world = [
+      [1,1,1,1,1,1,1,1,1,1],
+      [1,0,random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),1],
+      [1,random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),1],
+      [1,random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),1],
+      [1,random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),1],
+      [1,random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),1],
+      [1,random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),0,1],
+      [1,random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),1],
+      [1,random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),random(-1,4),1],
+      [1,1,1,1,1,1,1,1,1,1],
+      ];
+      var worldDict = {
+        0: 'blank',
+        1: 'wall',
+        2: 'sushi',
+        3: 'onigiri',
+      }
+      var score =0;
+      console.log("score= "+score);
+      function drawWorld(){
+        var output = "";
+        for(var row = 0; row <world.length; row++){
+          output += "<div class = 'row'>"
+          for(var x=0; x< world[row].length; x++){
+            output += "<div class = '"+worldDict[world[row][x]] +"'></div>"
+          }
+          output += "</div>"
+        }
+        document.getElementById('world').innerHTML = output;
+      }
+      drawWorld();
+      var ninjaman = {
+        x: 1,
+        y: 1,
+      }
+      function drawNinjaman(){
+        document.getElementById('ninjaman').style.top = ninjaman.y*40+'px'
+        document.getElementById('ninjaman').style.left = ninjaman.x*40+'px'
+      }
+      drawNinjaman();
+      var ghostorange = {
+        x: 8,
+        y: 6,
+      }
+      var ghostblue = {
+        x: 5,
+        y: 4,
+      }
+      var ghostpink = {
+        x: 2,
+        y: 2,
+      }
+      function drawghostorange(){
+        document.getElementById('ghostorange').style.top = ghostorange.y*40+'px'
+        document.getElementById('ghostorange').style.left = ghostorange.x*40+'px'
+      }
+      drawghostorange();
+      function moveghostorange(){
+        var move = random(-1,4);
+        if(move ===0 && (world[ghostorange.y][ghostorange.x-1] !==1)){
+          ghostorange.x--;
+        } 
+        else if(move ===1 && (world[ghostorange.y][ghostorange.x+1] !==1)){
+          ghostorange.x++;
+        }
+        else if(move ===2 && (world[ghostorange.y-1][ghostorange.x] !==1)){
+        ghostorange.y--;
+        }
+        else if(move ===3 && (world[ghostorange.y+1][ghostorange.x] !==1)){
+        ghostorange.y++;
+        }
+        }
+        function drawghostpink(){
+        document.getElementById('ghostpink').style.top = ghostpink.y*40+'px'
+        document.getElementById('ghostpink').style.left = ghostpink.x*40+'px'
+      }
+      drawghostpink();
+      function moveghostpink(){
+        var move = random(-1,4);
+        if(move ===0 && (world[ghostpink.y][ghostpink.x-1] !==1)){
+          ghostpink.x--;
+        } 
+        else if(move ===1 && (world[ghostpink.y][ghostpink.x+1] !==1)){
+          ghostpink.x++;
+        }
+        else if(move ===2 && (world[ghostpink.y-1][ghostpink.x] !==1)){
+        ghostpink.y--;
+        }
+        else if(move ===3 && (world[ghostpink.y+1][ghostpink.x] !==1)){
+        ghostpink.y++;
+        }
+        }
+        function drawghostblue(){
+        document.getElementById('ghostblue').style.top = ghostblue.y*40+'px'
+        document.getElementById('ghostblue').style.left = ghostblue.x*40+'px'
+      }
+      drawghostblue();
+      function moveghostblue(){
+        var move = random(-1,4);
+        if(move ===0 && (world[ghostblue.y][ghostblue.x-1] !==1)){
+          ghostblue.x--;
+        } 
+        else if(move ===1 && (world[ghostblue.y][ghostblue.x+1] !==1)){
+          ghostblue.x++;
+        }
+        else if(move ===2 && (world[ghostblue.y-1][ghostblue.x] !==1)){
+        ghostblue.y--;
+        }
+        else if(move ===3 && (world[ghostblue.y+1][ghostblue.x] !==1)){
+        ghostblue.y++;
+        }
+        }
+      var lives = 3;
+      console.log("lives= "+lives);
+     
+      document.onkeydown = function(e){
+        if(e.keyCode === 37){ 
+          if(world[ninjaman.y][ninjaman.x-1] !==1){
+         ninjaman.x--;
+        }
+      }
+        if(e.keyCode === 38){ 
+           if(world[ninjaman.y-1][ninjaman.x] !==1){
+         ninjaman.y--;
+        }
+       }
+        if(e.keyCode === 39){ 
+          if(world[ninjaman.y][ninjaman.x+1] !==1){
+         ninjaman.x++;
+        }
+       }
+        if(e.keyCode === 40){ 
+          if(world[ninjaman.y+1][ninjaman.x] !==1){
+         ninjaman.y++;
+        }
+      }
+      if(world[ninjaman.y][ninjaman.x] === 2){
+        world[ninjaman.y][ninjaman.x] =0;
+        score+=10;
+        console.log("score= "+score);}
+      else if(world[ninjaman.y][ninjaman.x] === 3){
+        world[ninjaman.y][ninjaman.x] =0;
+        score+=5;
+        console.log("score= "+score);
+       }
+      if((ninjaman.x === ghostorange.x) && (ninjaman.y === ghostorange.y)){
+        lives -=1;
+      console.log("lives= "+lives)
+      }
+      if(lives ===0){
+      document.write("Game Over!</br>Your Score= "+score)
+      }
+      drawNinjaman()
+      drawWorld()
+    }
+    function gameLoop() {
+      drawNinjaman();
+      drawghostorange();
+      moveghostorange();
+      drawghostorange();
+      drawghostblue();
+      moveghostblue();
+      drawghostblue();
+      drawghostpink()
+      moveghostpink();
+      drawghostpink();
+      setTimeout(gameLoop, 750)
+    }
+    gameLoop();
+</script>
+
+</html>
